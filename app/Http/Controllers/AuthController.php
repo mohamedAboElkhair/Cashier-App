@@ -43,6 +43,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => $request->password,
+            'active' => $request->boolean('active', true),
             'role' => strtolower($request->role ?? 'cashier'),
         ]);
 
@@ -90,6 +91,7 @@ class AuthController extends Controller
             'username' => auth()->user()->username,
             'user_id' => auth()->user()->id,
             'role' => auth()->user()->role,
+            'active' => auth()->user()->active,
         ]);
     }
 }

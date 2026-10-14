@@ -40,6 +40,13 @@ class RegisterRequest extends FormRequest
                 'role' => strtolower((string) $this->input('role')),
             ]);
         }
+
+        // Default 'active' to true if not provided or empty
+        if (! $this->has('active') || $this->input('active') === null || $this->input('active') === '') {
+            $this->merge([
+                'active' => true,
+            ]);
+        }
     }
 
     /**
@@ -53,6 +60,7 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
             'email' => 'required|email|unique:users,email',
+            'active' => 'sometimes|boolean',
             'password' => 'required|min:6',
             'role' => 'required|in:admin,cashier,account',
         ];
@@ -66,6 +74,7 @@ class RegisterRequest extends FormRequest
             'username.unique' => 'The username has already been taken.',
             'email.required' => 'The email field is required.',
             'email.unique' => 'The email field must be unique.',
+            'active.boolean' => 'The active field must be true or false.',
             'password.required' => 'The password field is required.',
             'password.min' => 'The password field must be at least 6 characters long.',
             'role.required' => 'The role field is required.',
@@ -79,6 +88,7 @@ class RegisterRequest extends FormRequest
             'name' => 'name',
             'username' => 'username',
             'email' => 'email',
+            'active' => 'active',
             'password' => 'password',
             'role' => 'role',
         ];
